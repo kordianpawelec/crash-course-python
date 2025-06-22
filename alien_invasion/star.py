@@ -7,7 +7,7 @@ import random
 class Star(Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load(Path(r'alien_invasion\images\zuz-star.bmp')).convert()
+        self.image = pygame.image.load(Path(r'alien_invasion\images\beatiful_star.bmp')).convert()
         self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width

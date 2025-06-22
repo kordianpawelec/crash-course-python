@@ -9,19 +9,20 @@ class Settings:
 
         #--ship--
         self.ship_speed = 5.8
+        self.ship_life = 3
 
         #--bullets--
         self.bullet_speed = 10
-        self.bullet_width = 5
+        self.bullet_width = 2000
         self.bullet_height = 15
-        self.bullet_colour = (60,60,60)
+        self.bullet_colour = (0,255,0)
         self.bullets_allowed = 5
 
         #--stars-sky--
         self.amout_of_stars = 3000
 
         #--alien--
-        self.alien_speed = 1
+        self.alien_speed = 4
         self.army_drop_speed = 10
         self.army_dir = 1
 
@@ -30,4 +31,12 @@ class Settings:
         self.falling_star_speed = 20
         self.falling_star_height = 80
         self.falling_star_width = 3
-        self.number_of_stars_on_screen = 30
+        self.number_of_stars_on_screen = 3
+
+        #--button--
+        self.button_width = 200
+        self.buton_height = 50
+        self.button_colour = (0,130,0)
+        self.button_text_colour = (255,255,255)
+        self.button_font_size = 48
+        self.button_hover_colour = (0,255,0)

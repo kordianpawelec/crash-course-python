@@ -7,6 +7,9 @@ from enum_keys import Keys
 from bullet import Bullet
 from the_alien_the_heretic_the_mutant import Alien
 from star_sky import StarSky
+from falling_star import FallingStar
+import random
+
 
 class AlienInvasion():
     def __init__(self):
@@ -20,15 +23,21 @@ class AlienInvasion():
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.falling_stars = pygame.sprite.Group()
         self.create_alien_fleet()
         self.sky = StarSky(self)
 
 
     def run_game(self):
         while self.running:
+            self.create_falling_stars()
             self.action_listoner()
             self.screen_update()
+    
             self.updade_bullets()
+            self.update_falling_stars()
+            self.update_aliens_movement()
+
             self.ship.update_action()
             self.clock.tick(self.settings.tick_rate)
 
@@ -71,9 +80,7 @@ class AlienInvasion():
 
 
     def updade_bullets(self):
-        #updatebullet position
         self.bullets.update()
-        #or copy because when we remove entries for the orgina python deosnt expect the loop to be cahge but if we creat a copy instead of sprit() its all g
         for bullet in self.bullets.copy():
             if bullet.rect.bottom < 0:
                 self.bullets.remove(bullet)
@@ -82,8 +89,16 @@ class AlienInvasion():
     def screen_update(self):
         self.screen.fill(self.bg_clour)
         self.sky.draw_sky()
+
+
+        for falling_star in self.falling_stars.sprites():
+            falling_star.draw_falling_star()
+
+
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+
+
         self.ship.blitme()
         self.aliens.draw(self.screen)
         pygame.display.flip()
@@ -104,6 +119,7 @@ class AlienInvasion():
             current_x = alien_width
             current_y += 2 * alien_height
 
+
     def create_alien(self, x_position, y_position):
             new_alien = Alien(self)
             new_alien.x = x_position
@@ -111,27 +127,39 @@ class AlienInvasion():
             new_alien.rect.x = x_position
             new_alien.rect.y = y_position
             self.aliens.add(new_alien)
+
+        
+    def update_aliens_movement(self):
+        self.check_army_edge()
+        self.aliens.update()
             
+
+    def check_army_edge(self):
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self.change_fleet_direction()
+                break
+
+
+    def change_fleet_direction(self):
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.army_drop_speed
+        self.settings.army_dir *= -1
+
+
+    def create_falling_stars(self):
+        while len(self.falling_stars.sprites()) < self.settings.number_of_stars_on_screen and random.randrange(1,5) == 4:
+            new_falling_star = FallingStar(self)
+            self.falling_stars.add(new_falling_star)
+            
+
+    def update_falling_stars(self):
+        self.falling_stars.update()
+        for star in self.falling_stars.copy():
+            if star.rect.top > self.settings.screen_height:
+                self.falling_stars.remove(star)
 
 
 if __name__ == '__main__':
-
     alien = AlienInvasion()
     alien.run_game()
-
-
-
-
-    # def set_full_screen(self):
-    #     self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-    #     self.settings.screen_width = self.screen.get_rect().width
-    #     self.settings.screen_height = self.screen.get_rect().height
-#chunky why????
-            # keys = pygame.key.get_pressed()
-            # if keys[Keys.A.value]:
-            #     self.ship.rect.x -= self.settings.speed
-            # if keys[Keys.D.value]:
-            #     self.ship.rect.x += self.settings.speed
-
-
-            # elif event.type == pygame.KEYDOWN:

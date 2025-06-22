@@ -8,7 +8,8 @@ class Ship():
         self.settings = Settings()
         self.screen = game_instance.screen
         self.screen_rectangle = game_instance.screen.get_rect()
-        self.image = pygame.image.load(Path('alien_invasion\images\DurrrSpaceShip.bmp'))
+        self.image = pygame.image.load(Path('alien_invasion\images\DurrrSpaceShip.bmp')).convert()
+        self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect()
         self.rect.midbottom = self.screen_rectangle.midbottom
         self.left = False

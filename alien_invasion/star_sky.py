@@ -12,19 +12,26 @@ class StarSky():
         
 
     def create_sky(self):
-        while len(self.stars.sprites()) < self.settings.amout_of_stars:
+        attempts = 0
+        while len(self.stars.sprites()) < self.settings.amout_of_stars and attempts < self.settings.while_loops_atempts:
             new_star = Star()
+
+
             pos_x = random.random() * (self.settings.screen_width - new_star.rect.width * 2)
             pos_y = random.random() * (self.settings.screen_height - new_star.rect.height * 2)
-            # new_star.x = pos_x
-            # new_star.y = pos_y
-            for star in self.stars.copy():
-                distance = ((star.rect.centerx - pos_x)**2 + (star.rect.centery - pos_y)**2)**0.5
-                if distance < 30 and distance < 30:
-                    continue
-            new_star.rect.x = pos_x
-            new_star.rect.y = pos_y
-            self.stars.add(new_star)
+
+
+            if not self.is_valid_draw(pos_x, pos_y):
+                new_star.rect.x = pos_x
+                new_star.rect.y = pos_y
+                self.stars.add(new_star)
+                continue
+            attempts += 1
+
+    def is_valid_draw(self, pos_x, pos_y):
+        for star in self.stars:
+            if abs(star.rect.x - pos_x) < (star.width * 2) and abs(star.rect.y - pos_y) < (star.height * 2):
+               return True 
 
 
     def draw_sky(self):

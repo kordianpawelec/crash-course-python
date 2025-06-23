@@ -1,15 +1,17 @@
 import pygame
+from pygame.sprite import Sprite
 from pathlib import Path
 from setting import Settings
 
 
-class Ship():
+class Ship(Sprite):
     def __init__(self, game_instance):
+        super().__init__()
         self.settings = Settings()
         self.screen = game_instance.screen
         self.screen_rectangle = game_instance.screen.get_rect()
         
-        self.image = pygame.image.load(Path('alien_invasion\images\DurrrSpaceShip.bmp')).convert()
+        self.image = pygame.image.load(Path(r'alien_invasion\images\DurrrSpaceShip.bmp')).convert()
         self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect()
 

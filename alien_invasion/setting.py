@@ -28,6 +28,9 @@ class Settings:
         #--alien--
         self.army_drop_speed = 10
         self.alien_points = 100
+        self.bullet_colour_alien = (255,0,0)
+        self.alien_bullet_speed = 5
+
 
         #--falling-stars--
         self.falling_star_colour = (252,252,252)

@@ -17,5 +17,3 @@ class Star(Sprite):
         self.width = self.rect.width
         self.height = self.rect.height
 
-    
-    

@@ -9,6 +9,7 @@ from bullet import Bullet
 from the_alien_the_heretic_the_mutant import Alien
 from star_sky import StarSky
 from falling_star import FallingStar
+from alien_bullet import AlienBullet
 import random
 from games_states import GameState
 from score_board import Scoreboard
@@ -26,6 +27,7 @@ class AlienInvasion():
         self.clock = pygame.time.Clock()
         self.bg_clour = self.settings.screen_bg
         self.ship = Ship(self)
+        self.alien_bullets = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
         self.falling_stars = pygame.sprite.Group()
@@ -42,6 +44,8 @@ class AlienInvasion():
             self.action_listoner()
 
             if self.game_active:
+                self.alien_shot()
+                self.update_alien_bullets()
                 self.create_falling_stars()
                 self.ship.update_action()
                 self.updade_bullets()
@@ -94,7 +98,6 @@ class AlienInvasion():
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
-
     def updade_bullets(self):
         self.bullets.update()
         for bullet in self.bullets.copy():
@@ -128,6 +131,9 @@ class AlienInvasion():
 
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+
+        for bull in self.alien_bullets.sprites():
+            bull.draw_bullet()
 
         self.ship.blitme()
         self.aliens.draw(self.screen)
@@ -240,6 +246,26 @@ class AlienInvasion():
         else:
             self.play_button.button_colour = self.settings.button_colour
 
+
+    def alie_shoot(self):
+        if self.aliens:
+            shooting_alien = random.choice(self.aliens.sprites())
+            bullet = AlienBullet(self, shooting_alien)
+            self.alien_bullets.add(bullet)
+
+    
+    def update_alien_bullets(self):
+        self.alien_bullets.update()
+        for bullet in self.alien_bullets.copy():
+            if bullet.rect.top > self.settings.screen_height:
+                self.alien_bullets.remove(bullet)
+            elif bullet.rect.colliderect(self.ship.rect):
+                self.ship_hit()
+                self.alien_bullets.remove(bullet)
+
+    def alien_shot(self):
+        if random.randint(1,600) and len(self.alien_bullets) < 5:
+            self.alie_shoot()
 
 
 if __name__ == '__main__':

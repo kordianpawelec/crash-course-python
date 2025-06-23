@@ -17,7 +17,7 @@ class Ship(Sprite):
 
         self.rect.midbottom = self.screen_rectangle.midbottom
         self.x = float(self.rect.x)
-
+    
         self.left = False
         self.right = False
         
@@ -38,4 +38,4 @@ class Ship(Sprite):
     def center_ship(self):
         self.rect.midbottom = self.screen_rectangle.midbottom
         self.x = float(self.rect.x)
-        
+    
